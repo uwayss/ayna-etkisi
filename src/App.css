@@ -1,32 +1,33 @@
 body {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #1a1a1d;
-  color: #f0f0f0;
+  background-color: #f4f0ff; /* Light lavender background */
+  color: #3d3250; /* Dark purple text */
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 20px 15px;
 }
 
 .container {
-  background-color: #2c2c30;
-  padding: 25px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(61, 50, 80, 0.15);
   text-align: center;
-  width: 90%;
-  max-width: 450px;
+  width: 95%;
+  max-width: 420px;
   margin: 0 auto;
 }
 
 h1 {
-  color: #08d9d6;
+  color: #7a42f4; /* Vibrant Purple */
   margin-top: 0;
-  margin-bottom: 25px;
-  font-size: 2em;
+  margin-bottom: 30px;
+  font-size: 2.2em;
   font-weight: 700;
 }
 
@@ -34,11 +35,12 @@ h1 {
   position: relative;
   width: 100%;
   padding-bottom: 75%; /* 4:3 Aspect Ratio */
-  margin-bottom: 25px;
-  background-color: #000;
-  border-radius: 12px;
+  margin-bottom: 30px;
+  background-color: #2e253b; /* Darker shade for video bg */
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 0 15px rgba(8, 217, 214, 0.2);
+  border: 3px solid #c9b6f9; /* Lighter purple border */
+  box-shadow: 0 4px 10px rgba(122, 66, 244, 0.2);
 }
 
 video {
@@ -48,7 +50,7 @@ video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 13px; /* Inner radius to account for border */
   transition: opacity 0.25s ease-in-out;
 }
 
@@ -60,71 +62,69 @@ video {
 }
 
 button {
-  padding: 12px 20px;
-  font-size: 1em;
+  padding: 14px 20px;
+  font-size: 1.05em;
   font-weight: 600;
-  color: #08d9d6;
-  background-color: transparent;
-  border: 2px solid #08d9d6;
-  border-radius: 10px;
+  color: #ffffff;
+  background-color: #9d73f9; /* Medium Purple */
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 0px #7a42f4; /* 3D effect shadow */
+  text-transform: capitalize;
 }
 
 button:hover:not(:disabled),
 button:focus:not(:disabled) {
-  background-color: #08d9d6;
-  color: #1a1a1d;
-  border-color: #08d9d6;
+  background-color: #8a5ff0;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 217, 214, 0.3);
+  box-shadow: 0 6px 0px #6e36d9;
   outline: none;
 }
 
 button:active:not(:disabled) {
-  transform: translateY(0px);
-  box-shadow: 0 2px 8px rgba(8, 217, 214, 0.2);
+  transform: translateY(1px);
+  box-shadow: 0 2px 0px #6e36d9;
 }
 
 button.active {
-  background-color: #08d9d6;
-  color: #1a1a1d;
-  border-color: #08d9d6;
+  background-color: #7a42f4; /* Vibrant Purple for active */
+  color: #ffffff;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2), 0 1px 0px #5c2abf;
+  transform: translateY(1px);
 }
 
 button.active:hover:not(:disabled),
 button.active:focus:not(:disabled) {
-  background-color: #07c4c0;
-  border-color: #07c4c0;
-  color: #1a1a1d;
-  box-shadow: 0 4px 15px rgba(8, 217, 214, 0.4);
+  background-color: #6e36d9;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25), 0 1px 0px #5c2abf;
 }
 
 button:disabled {
-  background-color: transparent;
-  color: #555a5f;
-  border-color: #40454a;
+  background-color: #c9b6f9; /* Light, muted purple */
+  color: #7e7292;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.7;
+  box-shadow: 0 4px 0px #a893d3;
   transform: none;
-  box-shadow: none;
 }
 
 button.active:disabled {
-  background-color: #08d9d6;
-  color: #1a1a1d;
-  border-color: #08d9d6;
-  opacity: 0.5;
+  background-color: #a384e3; /* Slightly darker active disabled */
+  color: #ede7f6;
+  opacity: 0.8;
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .error-message {
-  color: #ff6b6b;
-  background-color: rgba(255, 107, 107, 0.1);
-  margin-top: 15px;
+  color: #d9534f; /* Standard error red */
+  background-color: #fdecea;
+  margin-top: 20px;
   padding: 12px 15px;
   border-radius: 8px;
-  border-left: 4px solid #ff6b6b;
+  border: 1px solid #f9c8c6;
   font-weight: 600;
   text-align: left;
 }
@@ -133,6 +133,7 @@ button.active:disabled {
 .permission-prompt {
   margin-top: 20px;
   margin-bottom: 20px;
-  color: #a0a0a0;
+  color: #6c5f7f; /* Muted purple for informational text */
   font-style: italic;
+  font-size: 0.95em;
 }
