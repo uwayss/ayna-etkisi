@@ -1,42 +1,44 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f2f5;
-  color: #1c1e21;
+  background-color: #1a1a1d;
+  color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
-  padding-top: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #2c2c30;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   text-align: center;
   width: 90%;
-  max-width: 400px;
+  max-width: 450px;
   margin: 0 auto;
 }
 
 h1 {
-  color: #007aff;
-  margin-bottom: 20px;
-  font-size: 1.8em;
+  color: #08d9d6;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 2em;
+  font-weight: 700;
 }
 
 .video-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 75%;
-  margin-bottom: 20px;
+  padding-bottom: 75%; /* 4:3 Aspect Ratio */
+  margin-bottom: 25px;
   background-color: #000;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 0 15px rgba(8, 217, 214, 0.2);
 }
 
 video {
@@ -46,68 +48,91 @@ video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-
+  border-radius: 12px;
   transition: opacity 0.25s ease-in-out;
 }
 
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 button {
-  padding: 12px 15px;
+  padding: 12px 20px;
   font-size: 1em;
   font-weight: 600;
-  color: #fff;
-  background-color: #007aff;
-  border: none;
-  border-radius: 8px;
+  color: #08d9d6;
+  background-color: transparent;
+  border: 2px solid #08d9d6;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 button:hover:not(:disabled),
 button:focus:not(:disabled) {
-  background-color: #005ecb;
+  background-color: #08d9d6;
+  color: #1a1a1d;
+  border-color: #08d9d6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(8, 217, 214, 0.3);
   outline: none;
 }
 
-button.active {
-  background-color: #34c759;
+button:active:not(:disabled) {
+  transform: translateY(0px);
+  box-shadow: 0 2px 8px rgba(8, 217, 214, 0.2);
 }
+
+button.active {
+  background-color: #08d9d6;
+  color: #1a1a1d;
+  border-color: #08d9d6;
+}
+
 button.active:hover:not(:disabled),
 button.active:focus:not(:disabled) {
-  background-color: #2aa34a;
+  background-color: #07c4c0;
+  border-color: #07c4c0;
+  color: #1a1a1d;
+  box-shadow: 0 4px 15px rgba(8, 217, 214, 0.4);
 }
 
 button:disabled {
-  background-color: #b5b5b7;
-  color: #fcfcfc;
+  background-color: transparent;
+  color: #555a5f;
+  border-color: #40454a;
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
 }
 
 button.active:disabled {
-  background-color: #7cda91;
-  color: #fcfcfc;
+  background-color: #08d9d6;
+  color: #1a1a1d;
+  border-color: #08d9d6;
+  opacity: 0.5;
 }
 
 .error-message {
-  color: #ff3b30;
+  color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
   margin-top: 15px;
-  font-weight: bold;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border-left: 4px solid #ff6b6b;
+  font-weight: 600;
+  text-align: left;
 }
 
-.loading-message {
-  margin-top: 15px;
-  color: #8e8e93;
-}
-
+.loading-message,
 .permission-prompt {
-  margin-top: 15px;
-  color: #8e8e93;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #a0a0a0;
+  font-style: italic;
 }
