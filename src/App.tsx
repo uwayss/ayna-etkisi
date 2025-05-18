@@ -1,26 +1,30 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-// Turkish UI Strings
+// UI Strings remain as in the previous "experiment" version
 const UI_STRINGS = {
-  title: "Ayna Ayna Söyle Bana",
-  realYouButton: "Başkaları Seni Nasıl Görüyor (Gerçek Sen)",
-  mirrorYouButton: "Kendini Nasıl Görüyorsun (Aynadaki Sen)",
-  explanationHeader: "Neden Farklı Görünüyor?",
-  explanationText1: `Çoğu video konferans uygulaması ve telefonun ön kamerası, görüntünü sana bir ayna gibi (yatayda ters çevrilmiş) gösterir. Bu, normalde aynada gördüğün yansımadır ve kendini daha rahat hissetmeni sağlar.`,
-  explanationText2: `"Başkaları Seni Nasıl Görüyor" seçeneği, insanların seni gerçek hayatta gördüğü gibi, yani ters çevrilmemiş halini gösterir. Yüzümüzdeki küçük asimetriler nedeniyle bu görüntü ilk başta biraz garip gelebilir. Ama unutma, herkesin yüzü az ya da çok asimetriktir ve insanlar seni bu "gerçek" halinle tanır ve sever! :) Bu sadece bir algı meselesi.`,
+  title: "Görünüş Deneyi",
+  realYouButton: "Herkes Seni Nasıl Görüyor",
+  mirrorYouButton: "Kendini Nasıl Görüyorsun",
   cameraError:
     "Kamera erişimi reddedildi veya bir hata oluştu. Lütfen tarayıcı ayarlarından izinleri kontrol et.",
   cameraLoading: "Kamera yükleniyor, lütfen bekle...",
   permissionPrompt: "Kameranı kullanmak için iznine ihtiyacımız var.",
 };
 
+const FADE_DURATION_MS = 250; // Duration for fade out/in (must match CSS transition)
+const BUTTON_COOLDOWN_MS = 1500; // Total time buttons are disabled
+
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [isMirrored, setIsMirrored] = useState<boolean>(true); // Start with mirror view (how you see yourself)
+  const [isMirroredViewActive, setIsMirroredViewActive] =
+    useState<boolean>(true); // true = "Kendini Nasıl Görüyorsun"
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Start true to show loading
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [videoOpacity, setVideoOpacity] = useState<number>(1); // 1 for visible, 0 for faded out
 
   useEffect(() => {
     let currentStream: MediaStream;
@@ -36,8 +40,7 @@ function App() {
         }
         currentStream = await navigator.mediaDevices.getUserMedia({
           video: {
-            // Optional: You can try to force front camera on mobile
-            // facingMode: "user" // 'user' for front, 'environment' for back
+            // facingMode: "user" // Optional
           },
         });
         setStream(currentStream);
@@ -65,20 +68,31 @@ function App() {
 
     getCameraAccess();
 
-    // Cleanup function to stop the stream when component unmounts
     return () => {
       if (currentStream) {
         currentStream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
+  }, []);
 
-  const handleShowRealYou = () => {
-    setIsMirrored(false); // Real you is not mirrored (flipped from default cam view)
-  };
+  const handleViewChange = (showMirrorView: boolean) => {
+    if (isButtonDisabled) {
+      return; // Do nothing if already transitioning or in cooldown
+    }
 
-  const handleShowMirrorYou = () => {
-    setIsMirrored(true); // Mirror you is mirrored (default cam view)
+    setIsButtonDisabled(true); // Disable buttons immediately
+    setVideoOpacity(0); // Start fading out
+
+    // After fade-out duration, change the view and start fading in
+    setTimeout(() => {
+      setIsMirroredViewActive(showMirrorView); // This flips the view instantly (but it's invisible)
+      setVideoOpacity(1); // Start fading in
+    }, FADE_DURATION_MS);
+
+    // After the total cooldown period, re-enable the buttons
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, BUTTON_COOLDOWN_MS);
   };
 
   return (
@@ -101,10 +115,11 @@ function App() {
         <video
           ref={videoRef}
           autoPlay
-          playsInline // Important for iOS
-          muted // Often necessary for autoplay, also you don't need sound
+          playsInline
+          muted
           style={{
-            transform: isMirrored ? "scaleX(-1)" : "scaleX(1)",
+            transform: isMirroredViewActive ? "scaleX(-1)" : "scaleX(1)",
+            opacity: videoOpacity, // Controlled by state for fading
           }}
         />
       </div>
@@ -112,25 +127,19 @@ function App() {
       {stream && !error && (
         <div className="controls">
           <button
-            onClick={handleShowRealYou}
-            className={!isMirrored ? "active" : ""}
+            onClick={() => handleViewChange(false)} // "Herkes Seni Nasıl Görüyor" -> isMirroredViewActive = false (scaleX(1))
+            className={!isMirroredViewActive ? "active" : ""}
+            disabled={isButtonDisabled}
           >
             {UI_STRINGS.realYouButton}
           </button>
           <button
-            onClick={handleShowMirrorYou}
-            className={isMirrored ? "active" : ""}
+            onClick={() => handleViewChange(true)} // "Kendini Nasıl Görüyorsun" -> isMirroredViewActive = true (scaleX(-1))
+            className={isMirroredViewActive ? "active" : ""}
+            disabled={isButtonDisabled}
           >
             {UI_STRINGS.mirrorYouButton}
           </button>
-        </div>
-      )}
-
-      {!isLoading && ( // Show explanation once loading is done
-        <div className="explanation">
-          <h3>{UI_STRINGS.explanationHeader}</h3>
-          <p>{UI_STRINGS.explanationText1}</p>
-          <p>{UI_STRINGS.explanationText2}</p>
         </div>
       )}
     </div>

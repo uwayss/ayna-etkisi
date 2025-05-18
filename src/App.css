@@ -1,15 +1,16 @@
+/* src/App.css */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f2f5; /* A soft background */
-  color: #1c1e21; /* Dark grey for text */
+  background-color: #f0f2f5;
+  color: #1c1e21;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align to top for mobile scroll */
+  align-items: flex-start;
   min-height: 100vh;
-  padding-top: 20px; /* Give some space at the top */
+  padding-top: 20px;
 }
 
 .container {
@@ -19,12 +20,12 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 90%;
-  max-width: 400px; /* Good for mobile */
+  max-width: 400px;
   margin: 0 auto;
 }
 
 h1 {
-  color: #007aff; /* iOS blue */
+  color: #007aff;
   margin-bottom: 20px;
   font-size: 1.8em;
 }
@@ -32,12 +33,11 @@ h1 {
 .video-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 75%; /* 4:3 Aspect Ratio for webcam typically */
-  /* If webcam is 16:9, use padding-bottom: 56.25%; */
+  padding-bottom: 75%; /* 4:3 Aspect Ratio */
   margin-bottom: 20px;
-  background-color: #000; /* Black background for video area */
+  background-color: #000;
   border-radius: 8px;
-  overflow: hidden; /* Clip the video to the rounded corners */
+  overflow: hidden;
 }
 
 video {
@@ -46,9 +46,11 @@ video {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Cover the area, might crop slightly */
-  border-radius: 8px; /* Match wrapper if video itself has no bg */
-  transition: transform 0.3s ease-in-out; /* Smooth flip */
+  object-fit: cover;
+  border-radius: 8px;
+  /* The transform flip itself is instant (no transition for transform here) */
+  /* The opacity change is animated for the fade effect */
+  transition: opacity 0.25s ease-in-out; /* Adjust timing as needed */
 }
 
 .controls {
@@ -70,38 +72,46 @@ button {
   transition: background-color 0.2s ease;
 }
 
-button:hover,
-button:focus {
+button:hover:not(:disabled),
+button:focus:not(:disabled) {
   background-color: #005ecb;
   outline: none;
 }
 
 button.active {
-  background-color: #34c759; /* iOS green for active state */
+  background-color: #34c759;
 }
-button.active:hover,
-button.active:focus {
+button.active:hover:not(:disabled),
+button.active:focus:not(:disabled) {
   background-color: #2aa34a;
 }
 
-.explanation {
-  font-size: 0.9em;
-  color: #65676b; /* Softer text color for explanation */
-  text-align: left;
-  line-height: 1.5;
-  padding: 10px;
-  background-color: #f0f2f5;
-  border-radius: 8px;
-  margin-top: 20px;
+button:disabled {
+  background-color: #b5b5b7; /* iOS-like disabled button color */
+  color: #fcfcfc; /* Lighter text for disabled */
+  cursor: not-allowed;
+  opacity: 0.7; /* Slightly see-through */
+}
+
+/* Specific style for active button when disabled (optional, but nice touch) */
+button.active:disabled {
+  background-color: #7cda91; /* A duller version of active green */
+  color: #fcfcfc;
 }
 
 .error-message {
-  color: #ff3b30; /* iOS red for errors */
+  color: #ff3b30;
   margin-top: 15px;
   font-weight: bold;
 }
 
 .loading-message {
   margin-top: 15px;
-  color: #8e8e93; /* iOS grey for loading */
+  color: #8e8e93;
+}
+
+.permission-prompt {
+  /* Added for consistency */
+  margin-top: 15px;
+  color: #8e8e93;
 }
