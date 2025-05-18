@@ -1,4 +1,3 @@
-/* src/App.css */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
@@ -33,7 +32,7 @@ h1 {
 .video-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 75%; /* 4:3 Aspect Ratio */
+  padding-bottom: 75%;
   margin-bottom: 20px;
   background-color: #000;
   border-radius: 8px;
@@ -48,9 +47,8 @@ video {
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
-  /* The transform flip itself is instant (no transition for transform here) */
-  /* The opacity change is animated for the fade effect */
-  transition: opacity 0.25s ease-in-out; /* Adjust timing as needed */
+
+  transition: opacity 0.25s ease-in-out;
 }
 
 .controls {
@@ -87,15 +85,14 @@ button.active:focus:not(:disabled) {
 }
 
 button:disabled {
-  background-color: #b5b5b7; /* iOS-like disabled button color */
-  color: #fcfcfc; /* Lighter text for disabled */
+  background-color: #b5b5b7;
+  color: #fcfcfc;
   cursor: not-allowed;
-  opacity: 0.7; /* Slightly see-through */
+  opacity: 0.7;
 }
 
-/* Specific style for active button when disabled (optional, but nice touch) */
 button.active:disabled {
-  background-color: #7cda91; /* A duller version of active green */
+  background-color: #7cda91;
   color: #fcfcfc;
 }
 
@@ -111,7 +108,6 @@ button.active:disabled {
 }
 
 .permission-prompt {
-  /* Added for consistency */
   margin-top: 15px;
   color: #8e8e93;
 }

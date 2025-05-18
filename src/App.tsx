@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-// UI Strings remain as in the previous "experiment" version
 const UI_STRINGS = {
   title: "Görünüş Deneyi",
   realYouButton: "Herkes Seni Nasıl Görüyor",
@@ -12,19 +11,19 @@ const UI_STRINGS = {
   permissionPrompt: "Kameranı kullanmak için iznine ihtiyacımız var.",
 };
 
-const FADE_DURATION_MS = 250; // Duration for fade out/in (must match CSS transition)
-const BUTTON_COOLDOWN_MS = 1500; // Total time buttons are disabled
+const FADE_DURATION_MS = 250;
+const BUTTON_COOLDOWN_MS = 1500;
 
 function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [isMirroredViewActive, setIsMirroredViewActive] =
-    useState<boolean>(true); // true = "Kendini Nasıl Görüyorsun"
+    useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-  const [videoOpacity, setVideoOpacity] = useState<number>(1); // 1 for visible, 0 for faded out
+  const [videoOpacity, setVideoOpacity] = useState<number>(1);
 
   useEffect(() => {
     let currentStream: MediaStream;
@@ -39,9 +38,7 @@ function App() {
           return;
         }
         currentStream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            // facingMode: "user" // Optional
-          },
+          video: {},
         });
         setStream(currentStream);
         if (videoRef.current) {
@@ -77,19 +74,17 @@ function App() {
 
   const handleViewChange = (showMirrorView: boolean) => {
     if (isButtonDisabled) {
-      return; // Do nothing if already transitioning or in cooldown
+      return;
     }
 
-    setIsButtonDisabled(true); // Disable buttons immediately
-    setVideoOpacity(0); // Start fading out
+    setIsButtonDisabled(true);
+    setVideoOpacity(0);
 
-    // After fade-out duration, change the view and start fading in
     setTimeout(() => {
-      setIsMirroredViewActive(showMirrorView); // This flips the view instantly (but it's invisible)
-      setVideoOpacity(1); // Start fading in
+      setIsMirroredViewActive(showMirrorView);
+      setVideoOpacity(1);
     }, FADE_DURATION_MS);
 
-    // After the total cooldown period, re-enable the buttons
     setTimeout(() => {
       setIsButtonDisabled(false);
     }, BUTTON_COOLDOWN_MS);
@@ -119,7 +114,7 @@ function App() {
           muted
           style={{
             transform: isMirroredViewActive ? "scaleX(-1)" : "scaleX(1)",
-            opacity: videoOpacity, // Controlled by state for fading
+            opacity: videoOpacity,
           }}
         />
       </div>
@@ -127,14 +122,14 @@ function App() {
       {stream && !error && (
         <div className="controls">
           <button
-            onClick={() => handleViewChange(false)} // "Herkes Seni Nasıl Görüyor" -> isMirroredViewActive = false (scaleX(1))
+            onClick={() => handleViewChange(false)}
             className={!isMirroredViewActive ? "active" : ""}
             disabled={isButtonDisabled}
           >
             {UI_STRINGS.realYouButton}
           </button>
           <button
-            onClick={() => handleViewChange(true)} // "Kendini Nasıl Görüyorsun" -> isMirroredViewActive = true (scaleX(-1))
+            onClick={() => handleViewChange(true)}
             className={isMirroredViewActive ? "active" : ""}
             disabled={isButtonDisabled}
           >
